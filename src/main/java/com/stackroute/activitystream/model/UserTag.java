@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * any Java objects annotated with the @Entity annotation. If it finds any, then it will begin the 
  * process of looking through that particular Java object to recreate it as a table in your database.
  */
-
+@Entity
 public class UserTag {
 	
 	/*

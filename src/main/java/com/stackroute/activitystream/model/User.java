@@ -10,43 +10,55 @@ import javax.persistence.Table;
  * any Java objects annotated with the @Entity annotation. If it finds any, then it will begin the 
  * process of looking through that particular Java object to recreate it as a table in your database.
  */
-
+@Entity
 public class User {
 
 	/*
-	 * This class should have three fields
-	 * (username,name,password). Out of these three fields, the
-	 * field username should be the primary key. This class should also contain
-	 * the getters and setters for the fields.
+	 * This class should have three fields (username,name,password). Out of
+	 * these three fields, the field username should be the primary key. This
+	 * class should also contain the getters and setters for the fields.
 	 */
-	
-	public User(String string, String string2, String string3) {
-		// TODO Auto-generated constructor stub
+	@Id	
+	private String userName;
+	private String uname;	
+	private String password;
+
+	public User(String uname, String userName, String password) {
+		this.uname = uname;
+		this.userName = userName;
+		this.password = password;
 	}
 
 	public User() {
-		// TODO Auto-generated constructor stub
+		uname = "HemaK";
+		userName = "hvkulkarni";
+		password = "hema@123";
 	}
 
 	public void setName(String string) {
-		// TODO Auto-generated method stub
-		
+		this.uname = string;
+
 	}
 
 	public void setPassword(String string) {
-		// TODO Auto-generated method stub
-		
+		this.password = string;
+
 	}
 
 	public void setUsername(String string) {
-		// TODO Auto-generated method stub
-		
+		this.userName = userName;
+
 	}
 
-	public Object getPassword() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPassword() {
+		return password;
 	}
 
-	
+	public String getUname() {
+		return uname;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
 }

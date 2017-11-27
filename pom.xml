@@ -45,13 +45,18 @@
 		</dependency>
 
 		<!-- Dependency for commons-dbcp2 -->
-
-
-
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1.1</version>
+		</dependency>
 		<!-- Dependency for servlet-api -->
-
-
-
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.0</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- Dependency for mysql-connector -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -61,34 +66,34 @@
 
 
 		<!-- Dependency for jackson-databind -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.0</version>
 		</dependency>
-
+ -->
 		<!-- Dependency for jaxb-api to be added(if using JDK9) -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>2.1</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- Dependency for jaxb-impl to be added(if using JDK9) -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
 			<version>2.1.3</version>
 		</dependency>
-
+ -->
 		<!-- Dependency for Spring Test to be added -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>4.3.10.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
-
+ -->
 		<!-- Dependency for mockito-all -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -98,11 +103,11 @@
 		</dependency>
 
 		<!-- Dependency for jackson-databind -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.9.1</version>
-		</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.9.1</version>
+	</dependency>
 
 		<!-- Dependency for hamcrest-all -->
 		<dependency>
@@ -119,8 +124,6 @@
 			<version>2.4.0</version>
 			<scope>test</scope>
 		</dependency>
-
-
 	</dependencies>
 	<build>
 		<pluginManagement>
