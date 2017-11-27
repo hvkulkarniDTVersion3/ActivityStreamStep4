@@ -1,10 +1,10 @@
 package com.stackroute.activitystream.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /*
  * The class "Circle" will be acting as the data model for the circle Table in the database. Please
@@ -16,43 +16,51 @@ import javax.persistence.Table;
 public class Circle {
 
 	/*
-	 * This class should have three fields
-	 * (circleName,creatorId,createdDate). Out of these three fields, the
-	 * field circleName should be the primary key. This class should also contain
-	 * the getters and setters for the fields. The value of createdDate should
-	 * not be accepted from the user but should be always initialized with the
-	 * system date
+	 * This class should have three fields (circleName,creatorId,createdDate).
+	 * Out of these three fields, the field circleName should be the primary
+	 * key. This class should also contain the getters and setters for the
+	 * fields. The value of createdDate should not be accepted from the user but
+	 * should be always initialized with the system date
 	 */
-	
-	public Circle(String string, String string2, Timestamp timestamp) {
-		// TODO Auto-generated constructor stub
+	@Id
+	private String circleName;
+	private String creatorId;
+	private Date createdDate;
+
+	public Circle(String cname, String cid, Date cdate) {
+		circleName = cname;
+		creatorId = cid;
+		createdDate = cdate;
 	}
 
 	public Circle() {
-		// TODO Auto-generated constructor stub
+		System.out.println("Circle defaulter constructor invoked");
 	}
 
-	public void setCircleName(String string) {
-		// TODO Auto-generated method stub
-		
+	public void setCircleName(String circleName) {
+		this.circleName = circleName;
 	}
 
 	public void setCreatedDate() {
-		// TODO Auto-generated method stub
-		
+		createdDate = new java.util.Date();
 	}
 
-	public void setCreatorId(String string) {
-		// TODO Auto-generated method stub
-		
+	public void setCreatorId(String creatorId) {
+		this.creatorId = creatorId;
 	}
 
 	public String getCircleName() {
-		// TODO Auto-generated method stub
-		return null;
+		return circleName;
+	}
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
-
-	
+	public String getCreatorId() {
+		return creatorId;
+	}
 }

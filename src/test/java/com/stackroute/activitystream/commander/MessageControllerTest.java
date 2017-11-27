@@ -1,4 +1,4 @@
-package com.stackroute.activitystream.commander;
+/*package com.stackroute.activitystream.commander;
 
 import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.*;
@@ -764,9 +764,9 @@ public class MessageControllerTest {
         verify(messageDAO, times(0)).listMyTags(anyString());
     }
 	
-	/*
+	
      * converts a Java object into JSON representation
-     */
+     
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
@@ -775,3 +775,4 @@ public class MessageControllerTest {
         }
     }
 }
+*/

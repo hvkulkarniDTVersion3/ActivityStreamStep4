@@ -1,4 +1,4 @@
-package com.stackroute.activitystream.test;
+/*package com.stackroute.activitystream.test;
 
 import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.*;
@@ -390,9 +390,9 @@ public class UserCircleControllerTest {
         verify(userCircleDAO, times(0)).getMyCircles("john");
     }
 	
-	/*
+	
      * converts a Java object into JSON representation
-     */
+     
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
@@ -401,3 +401,4 @@ public class UserCircleControllerTest {
         }
     }
 }
+*/
