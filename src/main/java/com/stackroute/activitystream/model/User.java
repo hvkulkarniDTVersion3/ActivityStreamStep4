@@ -19,46 +19,36 @@ public class User {
 	 * class should also contain the getters and setters for the fields.
 	 */
 	@Id	
-	private String userName;
-	private String uname;	
+	private String username;
+	private String name;	
 	private String password;
 
-	public User(String uname, String userName, String password) {
-		this.uname = uname;
-		this.userName = userName;
+	public User(String name, String username, String password) {
+		this.name = name;
+		this.username = username;
 		this.password = password;
 	}
-
 	public User() {
-		uname = "HemaK";
-		userName = "hvkulkarni";
+		name = "HemaK";
+		username = "hvkulkarni";
 		password = "hema@123";
 	}
-
-	public void setName(String string) {
-		this.uname = string;
-
+	public String getUsername() {
+		return username;
 	}
-
-	public void setPassword(String string) {
-		this.password = string;
-
+	public void setUsername(String username) {
+		this.username = username;
 	}
-
-	public void setUsername(String string) {
-		this.userName = userName;
-
+	public String getName() {
+		return name;
 	}
-
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getPassword() {
 		return password;
 	}
-
-	public String getUname() {
-		return uname;
-	}
-
-	public String getUserName() {
-		return userName;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
