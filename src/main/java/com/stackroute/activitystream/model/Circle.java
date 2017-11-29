@@ -1,10 +1,11 @@
 package com.stackroute.activitystream.model;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.springframework.stereotype.Component;
 
 /*
  * The class "Circle" will be acting as the data model for the circle Table in the database. Please
@@ -13,6 +14,7 @@ import javax.persistence.Id;
  * process of looking through that particular Java object to recreate it as a table in your database.
  */
 @Entity
+@Component
 public class Circle {
 
 	/*

@@ -39,9 +39,10 @@ public class UserDAOImpl implements UserDAO {
 	 * Create a new user
 	 */
 	public boolean save(User user) {
-		Session session = sessionFactory.openSession();
+		Session session = null;
+		session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(user);
+		session.saveOrUpdate(user);
 		session.getTransaction().commit();
 		session.close();
 		return true;
@@ -53,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
 	public boolean update(User user) {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(user);
+		session.update(user);
 		session.getTransaction().commit();
 		session.close();
 		return true;
@@ -90,16 +91,15 @@ public class UserDAOImpl implements UserDAO {
 		User user = null;
 		Session session = null;
 		session = sessionFactory.openSession();
-		if(exists(username))
-		{
+		if (exists(username)) {
 			Query<User> query = session.createQuery("from User where username = :username");
-			query.setString("username",username);
+			query.setString("username", username);
 			List<User> users = query.list();
 			user = users.get(0);
 			session.close();
-			if(user.getPassword().equals(password))
+			if (user.getPassword().equals(password))
 				return true;
-			else 
+			else
 				return false;
 		}
 		return false;
@@ -114,10 +114,12 @@ public class UserDAOImpl implements UserDAO {
 		session = sessionFactory.openSession();
 		Query<User> query = session.createQuery("from User where username = :username");
 		query.setString("username", username);
-		List<User>users = query.list();
+		List<User> users = query.list();
 		session.close();
-		if(users.size()>0) user = users.get(0);	
-		return user;	}
+		if (users.size() > 0)
+			user = users.get(0);
+		return user;
+	}
 
 	/*
 	 * check whether a user exists with a given userId
@@ -127,11 +129,10 @@ public class UserDAOImpl implements UserDAO {
 		Session session = null;
 		session = sessionFactory.openSession();
 		Query<User> query = session.createQuery("from User where username = :username");
-		query.setString("username",username);
+		query.setString("username", username);
 		List<User> users = query.list();
 		session.close();
-		if(users.size()>0)
-		{
+		if (users.size() > 0) {
 			user = users.get(0);
 			return true;
 		}

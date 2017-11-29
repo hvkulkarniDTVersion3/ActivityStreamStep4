@@ -95,7 +95,9 @@ public class UserTest {
 
 		user=userDAO.get("john");
 		user.setPassword("password2");
+		System.out.println(user.getPassword());
 		userDAO.save(user);
+		System.out.println(user.getPassword());
 		assertEquals("password2", userDAO.get("john").getPassword());
 	}
 	

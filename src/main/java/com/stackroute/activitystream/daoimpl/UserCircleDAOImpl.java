@@ -25,46 +25,39 @@ import com.stackroute.activitystream.model.UserCircle;
 * */
 @Repository("userCircleDAO")
 @Transactional
-public class UserCircleDAOImpl implements UserCircleDAO{
-	
+public class UserCircleDAOImpl implements UserCircleDAO {
+
 	/*
-	 * Autowiring should be implemented for the SessionFactory. 
+	 * Autowiring should be implemented for the SessionFactory.
 	 */
-		
-	
+
 	/*
-	 * Add a user to a circle 
+	 * Add a user to a circle
 	 */
 	public boolean addUser(String username, String circleName) {
-
-		// TODO Auto-generated method stub		
 		return false;
 	}
 
 	/*
-	 * Remove a user from a circle 
+	 * Remove a user from a circle
 	 */
 	public boolean removeUser(String username, String circleName) {
-		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	/*
-	 * Retrieve unique UserCircle object which contains a specific username 
-	 * and circleName 
+	 * Retrieve unique UserCircle object which contains a specific username and
+	 * circleName
 	 */
 	public UserCircle get(String username, String circleName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
 	/*
-	 * Retrieve all subscribed circles by a user 
+	 * Retrieve all subscribed circles by a user
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getMyCircles(String username) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

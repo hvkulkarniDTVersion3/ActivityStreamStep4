@@ -2,7 +2,8 @@ package com.stackroute.activitystream.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
 
 /*
  * The class "User" will be acting as the data model for the user Table in the database. Please
@@ -11,6 +12,7 @@ import javax.persistence.Table;
  * process of looking through that particular Java object to recreate it as a table in your database.
  */
 @Entity
+@Component
 public class User {
 
 	/*
@@ -29,9 +31,6 @@ public class User {
 		this.password = password;
 	}
 	public User() {
-		name = "HemaK";
-		username = "hvkulkarni";
-		password = "hema@123";
 	}
 	public String getUsername() {
 		return username;

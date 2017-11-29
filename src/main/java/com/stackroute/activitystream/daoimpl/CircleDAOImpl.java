@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,24 +25,39 @@ import com.stackroute.activitystream.model.Circle;
 * 					transaction. The database transaction happens inside the scope of a persistence 
 * 					context.  
 * */
-
+@Repository("circleDAO")
+@Transactional
 public class CircleDAOImpl implements CircleDAO {
 
 	/*
-	 * Autowiring should be implemented for the SessionFactory. 
+	 * Autowiring should be implemented for the SessionFactory.
 	 */
-	
+	@Autowired
+	SessionFactory sessionFactory;
 	/*
-	 * Autowiring should be implemented for UserDAO. 
+	 * Autowiring should be implemented for UserDAO.
 	 */
-	
+	@Autowired
+	UserDAO userDAO;
 
-		
 	/*
 	 * Create a new circle
 	 */
 	public boolean save(Circle circle) {
-		// TODO Auto-generated method stub
+		Session session = null;
+		session = sessionFactory.openSession();
+		if (get(circle.getCircleName()) == null) {
+
+			if (userDAO.get(circle.getCreatorId()) != null) {
+				session.beginTransaction();
+				session.saveOrUpdate(circle);
+				session.getTransaction().commit();
+				System.out.println("Circle Saved");
+				session.close();
+				return true;
+			} else
+				return false;
+		}
 		return false;
 	}
 
@@ -48,46 +65,72 @@ public class CircleDAOImpl implements CircleDAO {
 	 * Update an existing circle
 	 */
 	public boolean update(Circle circle) {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(circle);
+		session.getTransaction().commit();
+		session.close();
+		return true;
 	}
 
-	
 	/*
 	 * delete an existing circle
 	 */
 	public boolean delete(Circle circle) {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = null;
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(circle);
+		session.getTransaction().commit();
+		session.close();
+		return true;
 	}
-
 
 	/*
 	 * Retrieve a specific circle
 	 */
 	public Circle get(String circleName) {
-		// TODO Auto-generated method stub
-		return null;
-
+		Session session = null;
+		session = sessionFactory.openSession();
+		Circle circle = null;
+		Query<Circle> query = session.createQuery("from Circle where circleName = :circleName");
+		query.setString("circleName", circleName);
+		List<Circle> circleList = query.list();
+		if (circleList.size() > 0)
+			circle = circleList.get(0);
+		session.close();
+		return circle;
 	}
-	
+
 	/*
 	 * retrieving all circles
 	 */
 	public List<Circle> getAllCircles() {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = null;
+		session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Circle.class);
+		List<Circle> circleList = criteria.list();
+		session.close();
+		return circleList;
 	}
 
-	
 	/*
 	 * Retrieving all circles that matches a search string
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Circle> getAllCircles(String searchString) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = null;
+		session = sessionFactory.openSession();
+		Query<Circle> query = session.createQuery("from Circle where circleName like :circleName");
+		query.setString("circleName", "%" + searchString + "%");
 
-	}	
-
+		List<Circle> circleList = query.list();
+		session.close();
+		System.out.println(circleList.size());
+		if (circleList.size() > 0)
+			return circleList;
+		else
+			return null;
+	}
 }
