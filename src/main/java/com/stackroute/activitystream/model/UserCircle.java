@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
  * any Java objects annotated with the @Entity annotation. If it finds any, then it will begin the 
  * process of looking through that particular Java object to recreate it as a table in your database.
  */
+@Component
 @Entity
+@Table(name = "user_circle")
 public class UserCircle {
 
 	/*
@@ -24,13 +26,40 @@ public class UserCircle {
 	 * and setters for the fields.
 	 */
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int userCircleId;
-	private String userName;
+	private String username;
 	private String circleName;
 
-	public UserCircle(String userName, String circleName) {
-		this.userName = userName;
+	UserCircle() {
+	}
+
+	public UserCircle(String string, String string2) {
+		this.username = string;
+		this.circleName = string2;
+	}
+
+	public int getUserCircleId() {
+		return userCircleId;
+	}
+
+	public void setUserCircleId(int userCircleId) {
+		this.userCircleId = userCircleId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getCircleName() {
+		return circleName;
+	}
+
+	public void setCircleName(String circleName) {
 		this.circleName = circleName;
 	}
 }

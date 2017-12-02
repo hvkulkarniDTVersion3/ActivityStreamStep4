@@ -33,7 +33,7 @@ public class CircleDAOImpl implements CircleDAO {
 	 * Autowiring should be implemented for the SessionFactory.
 	 */
 	@Autowired
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	/*
 	 * Autowiring should be implemented for UserDAO.
 	 */
@@ -58,6 +58,7 @@ public class CircleDAOImpl implements CircleDAO {
 			} else
 				return false;
 		}
+
 		return false;
 	}
 
@@ -84,6 +85,7 @@ public class CircleDAOImpl implements CircleDAO {
 		session.delete(circle);
 		session.getTransaction().commit();
 		session.close();
+
 		return true;
 	}
 
@@ -100,37 +102,32 @@ public class CircleDAOImpl implements CircleDAO {
 		if (circleList.size() > 0)
 			circle = circleList.get(0);
 		session.close();
+
 		return circle;
 	}
 
 	/*
 	 * retrieving all circles
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Circle> getAllCircles() {
+		try {
+			List<Circle> circle = (List<Circle>) sessionFactory.getCurrentSession().createQuery("from Circle").list();
+			return circle;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
+
+	/*
+	 * Retrieving all circles that matches a search string
+	 */ public List<Circle> getAllCircles(String searchString) {
 		Session session = null;
 		session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Circle.class);
 		List<Circle> circleList = criteria.list();
 		session.close();
+
 		return circleList;
-	}
-
-	/*
-	 * Retrieving all circles that matches a search string
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Circle> getAllCircles(String searchString) {
-		Session session = null;
-		session = sessionFactory.openSession();
-		Query<Circle> query = session.createQuery("from Circle where circleName like :circleName");
-		query.setString("circleName", "%" + searchString + "%");
-
-		List<Circle> circleList = query.list();
-		session.close();
-		System.out.println(circleList.size());
-		if (circleList.size() > 0)
-			return circleList;
-		else
-			return null;
 	}
 }

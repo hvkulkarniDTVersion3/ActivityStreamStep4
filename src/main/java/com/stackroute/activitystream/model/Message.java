@@ -1,10 +1,13 @@
 package com.stackroute.activitystream.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.stereotype.Component;
 
 /*
  * The class "Message" will be acting as the data model for the message Table in the database. Please
@@ -13,6 +16,7 @@ import javax.persistence.Id;
  * process of looking through that particular Java object to recreate it as a table in your database.
  */
 @Entity
+@Component
 public class Message {
 
 	/*
@@ -24,18 +28,21 @@ public class Message {
 	 * user but should be always initialized with the system date
 	 */
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int messageId;
 	private String message;
 	private String senderName;
-	private int receiverId;
+	private String receiverId;
 	private String circleName;
-	private Date postedDate;
+	private Timestamp postedDate;
 	private String streamType;
 	private String tag;
 
-	public Message(int messageId, String message, String senderName, int receiverId, String circleName, Date postedDate,
-			String streamType, String tag) {
+	public Message() {
+	}
+
+	public Message(int messageId, String message, String senderName, String receiverId, String circleName,
+			Timestamp postedDate, String streamType, String tag) {
 		this.messageId = messageId;
 		this.message = message;
 		this.senderName = senderName;
@@ -61,6 +68,7 @@ public class Message {
 	public void setTag(String string) {
 		this.tag = string;
 	}
+
 	public int getMessageId() {
 		return messageId;
 	}
@@ -69,11 +77,11 @@ public class Message {
 		this.messageId = messageId;
 	}
 
-	public int getReceiverId() {
+	public String getReceiverId() {
 		return receiverId;
 	}
 
-	public void setReceiverId(int receiverId) {
+	public void setReceiverId(String receiverId) {
 		this.receiverId = receiverId;
 	}
 
@@ -85,12 +93,12 @@ public class Message {
 		this.circleName = circleName;
 	}
 
-	public Date getPostedDate() {
+	public Timestamp getPostedDate() {
 		return postedDate;
 	}
 
-	public void setPostedDate(Date postedDate) {
-		postedDate=new java.util.Date();
+	public void setPostedDate() {
+		this.postedDate = new Timestamp(System.currentTimeMillis());
 	}
 
 	public String getMessage() {

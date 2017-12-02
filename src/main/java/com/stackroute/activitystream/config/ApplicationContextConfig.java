@@ -79,7 +79,7 @@ public class ApplicationContextConfig {
     	sessionBuilder.addAnnotatedClass(Circle.class);
     	sessionBuilder.addAnnotatedClass(Message.class);
     	sessionBuilder.addAnnotatedClass(User.class);
-    	sessionBuilder.addAnnotatedClass(UserCircle.class);
+   // 	sessionBuilder.addAnnotatedClass(UserCircle.class);
     	sessionBuilder.addAnnotatedClass(UserTag.class);    	
     	return sessionBuilder.buildSessionFactory();
     }

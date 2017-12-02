@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  * process of looking through that particular Java object to recreate it as a table in your database.
  */
 @Entity
+@Component
 public class UserTag {
 
 	/*
@@ -24,10 +25,18 @@ public class UserTag {
 	 * setters for the fields.
 	 */
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userTagId;
 	private String userName;
 	private String tag;
+
+	public UserTag() {
+	}
+
+	public UserTag(String username, String tag) {
+		this.userName = username;
+		this.tag = tag;
+	}
 
 	public int getUserTagId() {
 		return userTagId;

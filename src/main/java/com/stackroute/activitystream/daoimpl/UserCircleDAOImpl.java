@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.stackroute.activitystream.dao.CircleDAO;
 import com.stackroute.activitystream.dao.UserCircleDAO;
 import com.stackroute.activitystream.dao.UserDAO;
+import com.stackroute.activitystream.model.Circle;
 import com.stackroute.activitystream.model.UserCircle;
 
 /*
@@ -30,19 +32,48 @@ public class UserCircleDAOImpl implements UserCircleDAO {
 	/*
 	 * Autowiring should be implemented for the SessionFactory.
 	 */
+	@Autowired
+	SessionFactory sessionFactory;
+	@Autowired
+	UserDAO userDAO;
+	@Autowired
+	CircleDAO circleDAO;
 
 	/*
 	 * Add a user to a circle
 	 */
 	public boolean addUser(String username, String circleName) {
-		return false;
+		if (circleDAO.get(circleName) != null && userDAO.get(username) != null) {
+			System.out.println("tested circlename and username");
+			if (get(username, circleName) == null) {
+				Session session = null;
+				session = sessionFactory.openSession();
+				session.beginTransaction();
+				session.save(new UserCircle(username, circleName));
+				session.getTransaction().commit();
+				session.close();
+				return true;
+			} else
+				return false;
+		} else
+			return false;
 	}
 
 	/*
 	 * Remove a user from a circle
 	 */
 	public boolean removeUser(String username, String circleName) {
-		return true;
+		UserCircle userCircle = get(username, circleName);
+		if (userCircle != null) {
+			Session session = null;
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.delete(userCircle);
+			session.getTransaction().commit();
+			session.close();
+			return true;
+		} else
+			return false;
 	}
 
 	/*
@@ -50,7 +81,18 @@ public class UserCircleDAOImpl implements UserCircleDAO {
 	 * circleName
 	 */
 	public UserCircle get(String username, String circleName) {
-		return null;
+		Session session = null;
+		session = sessionFactory.openSession();
+		Query<UserCircle> query = session
+				.createQuery("from UserCircle where userName = :username and circleName = :circleName");
+		query.setString("username", username);
+		query.setString("circleName", circleName);
+		List userCircles = query.list();
+		session.close();
+		UserCircle userCircle = null;
+		if (userCircles.size() > 0)
+			userCircle = (UserCircle) userCircles.get(0);
+		return userCircle;
 	}
 
 	/*
@@ -58,7 +100,12 @@ public class UserCircleDAOImpl implements UserCircleDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getMyCircles(String username) {
-		return null;
+		Session session = null;
+		session = sessionFactory.openSession();
+		Query<Circle> query = session.createQuery("select circleName from UserCircle where userName = :username");
+		query.setString("username", username);
+		List userCircles = query.list();
+		session.close();
+		return userCircles;
 	}
-
 }
