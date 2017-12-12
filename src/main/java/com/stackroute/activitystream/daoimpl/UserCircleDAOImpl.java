@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,37 +44,33 @@ public class UserCircleDAOImpl implements UserCircleDAO {
 	 * Add a user to a circle
 	 */
 	public boolean addUser(String username, String circleName) {
-		if (circleDAO.get(circleName) != null && userDAO.get(username) != null) {
-			System.out.println("tested circlename and username");
-			if (get(username, circleName) == null) {
-				Session session = null;
-				session = sessionFactory.openSession();
-				session.beginTransaction();
-				session.save(new UserCircle(username, circleName));
-				session.getTransaction().commit();
-				session.close();
+		try {
+			if (circleDAO.get(circleName) != null && userDAO.get(username) != null) {
+				UserCircle userCircle = new UserCircle(username, circleName);
+				sessionFactory.getCurrentSession().save(userCircle);
 				return true;
 			} else
 				return false;
-		} else
+		} catch (HibernateException e) {
 			return false;
+		}
 	}
 
 	/*
 	 * Remove a user from a circle
 	 */
 	public boolean removeUser(String username, String circleName) {
-		UserCircle userCircle = get(username, circleName);
-		if (userCircle != null) {
-			Session session = null;
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.delete(userCircle);
-			session.getTransaction().commit();
-			session.close();
-			return true;
-		} else
+		try {
+			UserCircle userCircle = get(username, circleName);
+			if (userCircle != null) {
+				sessionFactory.getCurrentSession().delete(userCircle);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (HibernateException e) {
 			return false;
+		}
 	}
 
 	/*
@@ -81,18 +78,20 @@ public class UserCircleDAOImpl implements UserCircleDAO {
 	 * circleName
 	 */
 	public UserCircle get(String username, String circleName) {
-		Session session = null;
-		session = sessionFactory.openSession();
-		Query<UserCircle> query = session
-				.createQuery("from UserCircle where userName = :username and circleName = :circleName");
-		query.setString("username", username);
-		query.setString("circleName", circleName);
-		List userCircles = query.list();
-		session.close();
-		UserCircle userCircle = null;
-		if (userCircles.size() > 0)
-			userCircle = (UserCircle) userCircles.get(0);
-		return userCircle;
+		try {
+			Query query = sessionFactory.getCurrentSession()
+					.createQuery("from UserCircle where username= :user and circleName= :circle");
+			query.setString("user", username);
+			query.setString("circle", circleName);
+			List userCircles = query.list();
+			UserCircle userCircle = null;
+			if (userCircles.size() > 0)
+				userCircle = (UserCircle) userCircles.get(0);
+			return userCircle;
+		} catch (HibernateException e) {
+			return null;
+		}
+
 	}
 
 	/*
@@ -100,12 +99,14 @@ public class UserCircleDAOImpl implements UserCircleDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getMyCircles(String username) {
-		Session session = null;
-		session = sessionFactory.openSession();
-		Query<Circle> query = session.createQuery("select circleName from UserCircle where userName = :username");
-		query.setString("username", username);
-		List userCircles = query.list();
-		session.close();
-		return userCircles;
+		try {
+			List<String> userCircles = (List<String>) sessionFactory.getCurrentSession()
+					.createQuery("select circleName from UserCircle where username=:search")
+					.setParameter("search", username).list();
+			return userCircles;
+		} catch (HibernateException e) {
+			return null;
+		}
+
 	}
 }

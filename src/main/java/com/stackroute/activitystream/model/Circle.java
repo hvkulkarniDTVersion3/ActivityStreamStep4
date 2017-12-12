@@ -1,5 +1,6 @@
 package com.stackroute.activitystream.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -27,9 +28,9 @@ public class Circle {
 	@Id
 	private String circleName;
 	private String creatorId;
-	private Date createdDate;
+	private Timestamp createdDate;
 
-	public Circle(String cname, String cid, Date cdate) {
+	public Circle(String cname, String cid, Timestamp cdate) {
 		circleName = cname;
 		creatorId = cid;
 		createdDate = cdate;
@@ -44,7 +45,7 @@ public class Circle {
 	}
 
 	public void setCreatedDate() {
-		createdDate = new java.util.Date();
+		createdDate =new Timestamp(System.currentTimeMillis());
 	}
 
 	public void setCreatorId(String creatorId) {
@@ -54,11 +55,11 @@ public class Circle {
 	public String getCircleName() {
 		return circleName;
 	}
-	public Date getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
 
