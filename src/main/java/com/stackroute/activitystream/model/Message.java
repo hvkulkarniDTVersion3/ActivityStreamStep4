@@ -23,9 +23,9 @@ public class Message {
 	 * This class should have eight fields
 	 * (messageId,senderName,receiverId,circleName,postedDate,streamType,message
 	 * ,tag). Out of these four fields, the field messageId should be
-	 * auto-generated. This class should also contain the getters and setters
-	 * for the fields. The value of postedDate should not be accepted from the
-	 * user but should be always initialized with the system date
+	 * auto-generated. This class should also contain the getters and setters for
+	 * the fields. The value of postedDate should not be accepted from the user but
+	 * should be always initialized with the system date
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,15 +41,13 @@ public class Message {
 	public Message() {
 	}
 
-	public Message(int messageId, String message, String senderName, String receiverId, String circleName,
-			Timestamp postedDate, String streamType, String tag) {
-		this.messageId = messageId;
-		this.message = message;
+	public Message(String senderName, String receiverId, String circleName, Object postedDate, String streamType,
+			String message, String tag) {
 		this.senderName = senderName;
 		this.receiverId = receiverId;
 		this.circleName = circleName;
-		this.postedDate = postedDate;
 		this.streamType = streamType;
+		this.message = message;
 		this.tag = tag;
 	}
 
