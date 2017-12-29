@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.stackroute.activitystream.aspect.LoggingAspect;
 import com.stackroute.activitystream.model.Circle;
 import com.stackroute.activitystream.model.Message;
 import com.stackroute.activitystream.model.User;
@@ -37,18 +39,19 @@ import com.stackroute.activitystream.model.UserTag;
 @EnableTransactionManagement
 @EnableWebMvc
 @ComponentScan("com.stackroute.activitystream")
+@EnableAspectJAutoProxy
 public class ApplicationContextConfig {
 
 	/*
-	 * Define the bean for DataSource. In our application, we are using MySQL as
-	 * the dataSource. To create the DataSource bean, we need to know: 1. Driver
-	 * class name 2. Database URL 3. Username 4. Password
+	 * Define the bean for DataSource. In our application, we are using MySQL as the
+	 * dataSource. To create the DataSource bean, we need to know: 1. Driver class
+	 * name 2. Database URL 3. Username 4. Password
 	 */
 	@Bean(name = "dataSource")
 	public DataSource getMySQLDataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3307/ActivityStreamStep3");
+		dataSource.setUrl("jdbc:mysql://localhost:3307/ActivityStreamStep4");
 		dataSource.setUsername("root");
 		dataSource.setPassword("password@123");
 		return dataSource;
@@ -64,40 +67,42 @@ public class ApplicationContextConfig {
 	}
 
 	/*
-	 * Define the bean for SessionFactory. Hibernate SessionFactory is the
-	 * factory class through which we get sessions and perform database
-	 * operations.
+	 * Define the bean for SessionFactory. Hibernate SessionFactory is the factory
+	 * class through which we get sessions and perform database operations.
 	 */
 	@Autowired
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) {
-    	LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-    
-    	System.out.println("Scanning model package");
-    	sessionBuilder.scanPackages("com.stackroute.activitystream.model");
-    	sessionBuilder.addProperties(getHibernateProperties());
-    	sessionBuilder.addAnnotatedClass(Circle.class);
-    	sessionBuilder.addAnnotatedClass(Message.class);
-    	sessionBuilder.addAnnotatedClass(User.class);
-   // 	sessionBuilder.addAnnotatedClass(UserCircle.class);
-    	sessionBuilder.addAnnotatedClass(UserTag.class);    	
-    	return sessionBuilder.buildSessionFactory();
-    }
+	@Bean(name = "sessionFactory")
+	public SessionFactory getSessionFactory(DataSource dataSource) {
+		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+		System.out.println("Scanning model package");
+		sessionBuilder.scanPackages("com.stackroute.activitystream.model");
+		sessionBuilder.addProperties(getHibernateProperties());
+		sessionBuilder.addAnnotatedClass(Circle.class);
+		sessionBuilder.addAnnotatedClass(Message.class);
+		sessionBuilder.addAnnotatedClass(User.class);
+		sessionBuilder.addAnnotatedClass(UserCircle.class);
+		sessionBuilder.addAnnotatedClass(UserTag.class);
+		return sessionBuilder.buildSessionFactory();
+	}
 
 	/*
-	 * Define the bean for Transaction Manager. HibernateTransactionManager
-	 * handles transaction in Spring. The application that uses single hibernate
-	 * session factory for database transaction has good choice to use
-	 * HibernateTransactionManager. HibernateTransactionManager can work with
-	 * plain JDBC too. HibernateTransactionManager allows bulk update and bulk
-	 * insert and ensures data integrity.
+	 * Define the bean for Transaction Manager. HibernateTransactionManager handles
+	 * transaction in Spring. The application that uses single hibernate session
+	 * factory for database transaction has good choice to use
+	 * HibernateTransactionManager. HibernateTransactionManager can work with plain
+	 * JDBC too. HibernateTransactionManager allows bulk update and bulk insert and
+	 * ensures data integrity.
 	 */
 	@Autowired
 	@Bean(name = "transactionManager")
-	public HibernateTransactionManager getTransactionManager(
-			SessionFactory sessionFactory) {
-		HibernateTransactionManager transactionManager = new HibernateTransactionManager(
-				sessionFactory);
+	public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
+		HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
 		return transactionManager;
+	}
+
+	@Bean(name = "loggingAspect")
+	public LoggingAspect getLoggingAspect() {
+		System.out.println("Creating loggingAspect bean");
+		return new LoggingAspect();
 	}
 }

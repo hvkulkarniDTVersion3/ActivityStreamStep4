@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stackroute.activitystream.dao.UserDAO;
 import com.stackroute.activitystream.model.User;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * As in this assignment, we are working with creating RESTful web service, hence annotate
@@ -28,28 +30,31 @@ import com.stackroute.activitystream.model.User;
 public class UserAuthController {
 
 	/*
-	 * Autowiring should be implemented for the UserDAO. Please note that 
-	 * we should not create any object using the new keyword 
+	 * Autowiring should be implemented for the UserDAO. Please note that we should
+	 * not create any object using the new keyword
 	 */
-	
+	private static final Logger logger = LoggerFactory.getLogger(UserAuthController.class);
 	@Autowired
 	private UserDAO userDAO;
 
-
-	/* Define a handler method which will authenticate a user by reading the Serialized user
-	 * object from request body containing the username and password and validating the same. Post login, the 
-	 * username will have to be stored into session object, so that we can check whether the user is logged in for all
-	 * other services. 
-	 * This handler method should return any one of the status messages basis on different
-	 * situations:
-	 * 1. 200(OK) - If login is successful
+	/*
+	 * Define a handler method which will authenticate a user by reading the
+	 * Serialized user object from request body containing the username and password
+	 * and validating the same. Post login, the username will have to be stored into
+	 * session object, so that we can check whether the user is logged in for all
+	 * other services. This handler method should return any one of the status
+	 * messages basis on different situations: 1. 200(OK) - If login is successful
 	 * 2. 500(INTERNAL SERVER ERROR) - If login is not successful
 	 * 
-	 * This handler method should map to the URL "/api/authenticate" using HTTP POST method
-	*/
+	 * This handler method should map to the URL "/api/authenticate" using HTTP POST
+	 * method
+	 */
 	@PostMapping("/api/authenticate")
 	public ResponseEntity<User> authenticateUser(@RequestBody User user, HttpServletRequest request) {
+		logger.debug("logger in authenticateUser..");
 		if (userDAO.validate(user.getUsername(), user.getPassword())) {
+			// logger.info("in UserAuthController..");
+			logger.info("user is " + user.getName() + " request is " + request.getRequestURI());
 			request.getSession().setAttribute("loggedInUser", userDAO.get(user.getUsername()));
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} else
@@ -59,15 +64,15 @@ public class UserAuthController {
 		}
 	}
 
-	/* Define a handler method which will perform logout. Post logout, the user session is to be destroyed.
-	 * This handler method should return any one of the status messages basis on different
-	 * situations:
-	 * 1. 200(OK) - If logout is successful
-	 * 2. 400(BAD REQUEST) - If logout has failed
+	/*
+	 * Define a handler method which will perform logout. Post logout, the user
+	 * session is to be destroyed. This handler method should return any one of the
+	 * status messages basis on different situations: 1. 200(OK) - If logout is
+	 * successful 2. 400(BAD REQUEST) - If logout has failed
 	 * 
 	 * This handler method should map to the URL "/api/logout" using HTTP PUT method
-	*/ 
-	
+	 */
+
 	@PutMapping("/api/logout")
 	public ResponseEntity<HttpStatus> logout(HttpSession session) {
 
@@ -77,8 +82,5 @@ public class UserAuthController {
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		} else
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
-
 	}
-
-
 }

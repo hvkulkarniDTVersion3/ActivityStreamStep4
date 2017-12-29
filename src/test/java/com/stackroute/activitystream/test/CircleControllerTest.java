@@ -1,4 +1,4 @@
-/*package com.stackroute.activitystream.test;
+package com.stackroute.activitystream.test;
 
 import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.*;
@@ -344,7 +344,7 @@ public class CircleControllerTest {
     }
 		
 	
-     * converts a Java object into JSON representation
+    // * converts a Java object into JSON representation
      
     public static String asJsonString(final Object obj) {
         try {
@@ -354,4 +354,3 @@ public class CircleControllerTest {
         }
     }
 }
-*/
