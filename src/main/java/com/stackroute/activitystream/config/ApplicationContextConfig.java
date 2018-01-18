@@ -16,7 +16,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.stackroute.activitystream.aspect.LoggingAspect;
 import com.stackroute.activitystream.model.Circle;
 import com.stackroute.activitystream.model.Message;
 import com.stackroute.activitystream.model.User;
@@ -98,11 +97,5 @@ public class ApplicationContextConfig {
 	public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
 		return transactionManager;
-	}
-
-	@Bean(name = "loggingAspect")
-	public LoggingAspect getLoggingAspect() {
-		System.out.println("Creating loggingAspect bean");
-		return new LoggingAspect();
 	}
 }

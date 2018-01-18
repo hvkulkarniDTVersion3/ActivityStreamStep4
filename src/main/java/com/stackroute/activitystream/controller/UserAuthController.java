@@ -1,8 +1,11 @@
 package com.stackroute.activitystream.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stackroute.activitystream.dao.UserDAO;
 import com.stackroute.activitystream.model.User;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /*
  * As in this assignment, we are working with creating RESTful web service, hence annotate
@@ -33,7 +34,7 @@ public class UserAuthController {
 	 * Autowiring should be implemented for the UserDAO. Please note that we should
 	 * not create any object using the new keyword
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(UserAuthController.class);
+	static Logger logger = Logger.getLogger(UserAuthController.class);
 	@Autowired
 	private UserDAO userDAO;
 
